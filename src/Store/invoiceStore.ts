@@ -7,6 +7,7 @@ interface InvoicesStore {
   data:         any[];
   setData:      (invoices: any[]) => void;
   setUpdate:    (upd: number) => void;
+  updateItem:   ( updates: Partial<any>) => void;
   // Экшн для назначения
   assignWorker: (token: string, invoiceId: string, workerObj: any) => Promise<any>;
 }
@@ -19,6 +20,17 @@ export const useInvoicesStore = create<InvoicesStore>()(
 
       setData:   (invoices) => set({ data: invoices }),
       setUpdate: (upd)      => set({ update: upd }),
+
+      updateItem: ( updates ) => {
+        const currentData = get().data;
+        const newData = currentData.map((inv: any) => {
+          if (inv.id === updates.id || inv.Ссылка === updates.id) {
+            return { ...inv, ...updates };
+          }
+          return inv;
+        });
+        set({ data: newData });
+      },
 
       // === ГЛАВНАЯ ФУНКЦИЯ ===
       // Мы принимаем сюда сразу ОБЪЕКТ сотрудника {id, name}, чтобы обновить UI
@@ -64,6 +76,7 @@ export const useInvoices = () => {
   const data         = useInvoicesStore((state) => state.data);
   const setData      = useInvoicesStore((state) => state.setData);
   const setUpdate    = useInvoicesStore((state) => state.setUpdate);
+  const updateItem   = useInvoicesStore((state) => state.updateItem);
   const assignWorker = useInvoicesStore((state) => state.assignWorker); // Экспортируем функцию
-  return { data, setData, update, setUpdate, assignWorker };
+  return { data, setData, update, setUpdate, updateItem, assignWorker };
 };

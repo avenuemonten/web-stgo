@@ -9,10 +9,11 @@ import {
   searchOutline, ellipsisHorizontal, chatbubbleEllipsesOutline
 } from 'ionicons/icons';
 import { AddressForm } from '../../Lics/components/FindAddress/FindAddress'; 
+import FindLics from '../../Lics/components/FindLic/FindLics';
 // Импортируем работников из навигации (там они точно есть)
 import { useItem, useWorkers } from '../../../Store/navigationStore'; 
 // Импортируем логику назначения
-import { useInvoices } from '../../../Store/invoiceStore'; 
+import { useInvoices, useInvoicesStore } from '../../../Store/invoiceStore'; 
 import { useToken } from '../../../Store/loginStore';
 import { formatDate } from '../../Lics/useLics';
 
@@ -38,12 +39,14 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
   onClose
 }) => {
   const [isUpdatingAddress, setIsUpdatingAddress] = useState(false);
+  const [isUpdatingLic, setIsUpdatingLic] = useState(false);
   const { setItem } = useItem();
   
   // Достаем список работников и функцию назначения
   const { workers } = useWorkers();
   const { assignWorker } = useInvoices();
   const { token } = useToken();
+  const  updateItem = useInvoicesStore( state => state.updateItem )
 
   const [localAddress, setLocalAddress] = useState<any>(invoice?.address);
   const currentInvoiceId = useRef(invoice?.id);
@@ -187,6 +190,11 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
                   <div className={styles.label}>Лицевой счет</div>
                   <div className={styles.value}>{safeInvoice.lic?.code || safeInvoice.lic || 'Без Л/С'}</div>
                 </div>
+                <div className={styles.actionSlot}>
+                  <button className={styles.miniBtn} onClick={() => setIsUpdatingLic(true)} title="Выбрать лицевой счет">
+                    <IonIcon icon={ellipsisHorizontal}/>
+                  </button>
+                </div>
               </div>
 
               {(safeInvoice.service || safeInvoice.complete_text) && (
@@ -230,6 +238,19 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
             onClose={() => setIsUpdatingAddress(false)}
         />
       </IonModal>
+
+      <FindLics
+        isOpen={isUpdatingLic}
+        onClose={() => setIsUpdatingLic(false)}
+        onSelect={(item: any) => {
+            if (item?.type === 'lics' && item?.name) {
+                const newLic = { code: item.name, id: item.id, name: item.name };
+                updateItem({ ...safeInvoice, lic: newLic });
+                setItem({ ...safeInvoice, lic: newLic });
+            }
+            setIsUpdatingLic(false);
+        }}
+      />
     </>
   );
 };
