@@ -151,11 +151,14 @@ const Invoices: React.FC = () => {
 
       <div className={styles.mapPanel}>
          <Maps 
-            mapRouteData={item && item.number ? { // Проверка item.number
-                startCoords: [55.751244, 37.618423], 
-                endCoords: [55.751310, 37.618445], 
-                licInfo: item.cargoDetails
-            } : null}
+            invoices = { filteredInvoices }
+            // mapRouteData = {
+            //     item && item.number ? { // Проверка item.number
+            //         startCoords: [55.751244, 37.618423], 
+            //         endCoords: [55.751310, 37.618445], 
+            //         licInfo: item.cargoDetails
+            //     }
+            // } : null }
          />
       </div>
 

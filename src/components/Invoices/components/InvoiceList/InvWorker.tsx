@@ -3,19 +3,13 @@ import React from 'react';
 import { IonIcon } from '@ionic/react';
 import { personCircleOutline } from 'ionicons/icons';
 import styles from './InvWorker.module.css';
+import { WorkerData } from '../../../../Store/navigationStore';
 
 // Сохраняем интерфейс
 export interface WorkerProps {
-    worker: {
-        id: string;
-        name: string;
-        status: 'available' | 'busy' | 'offline' | 'on_break';
-        avatarUrl?: string;
-        role?: string;
-        rating?: number;
-    };
-    isSelected?: boolean;
-    onSelect?: (workerId: string) => void;
+    worker:         WorkerData;
+    isSelected?:    boolean;
+    onSelect?:      ( workerId: string ) => void;
 }
 
 const InvWorker: React.FC<WorkerProps> = ({ 
@@ -45,10 +39,12 @@ const InvWorker: React.FC<WorkerProps> = ({
             </div>
 
             <div className={styles.workerInfo}>
-                <span className={styles.workerName}>{worker.name}</span>
+                <span className={styles.workerName}>{'' + worker.name}</span>
+                <span className={styles.workerRating}>
+                    {worker.in_work > 0 && ('В работе:  ' + worker.in_work + "  /  Законченных: " + worker.completed) }    
+                </span>
                 <span className={styles.workerRole}>
-                    {worker.rating ? `⭐ ${worker.rating} • ` : ''} 
-                    Сотрудник
+                    { worker.role || 'Сотрудник' } 
                 </span>
             </div>
 

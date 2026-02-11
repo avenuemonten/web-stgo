@@ -3,6 +3,7 @@ import { useInvoices } from '../../Store/invoiceStore'; // Проверь пут
 import { useToken, useLoading } from '../../Store/loginStore';
 import { useToast } from '../Toast';
 import { post } from '../../Store/api';
+import { useNavigationStore } from '../../Store/navigationStore';
 
 // Функция для приведения данных от 1С к нормальному виду
 const normalizeInvoice = (inv: any) => {
@@ -134,7 +135,7 @@ export const useHook = () => {
   const upd_worker = useCallback(async( id: string, worker: any ) => {
       const res = await post( "set_inv_worker", { token, id, worker: worker.worker.id, status: worker.status });
       if(res.success){
-        const jarr = invoices.map( ( inv: any ) =>
+        let jarr = invoices.map( ( inv: any ) =>
               (inv.id === id || inv.Ссылка === id)
                 ? { 
                     ...inv, 
@@ -146,6 +147,7 @@ export const useHook = () => {
                 : inv
         );
         setData( jarr );
+
       } else {
         toast.error("Ошибка назначения");
       }

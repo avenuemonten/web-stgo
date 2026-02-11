@@ -85,11 +85,11 @@ export const InvMap: React.FC<any> = ({
                         key                 = { worker.id }
                         worker              = { worker }
                         onSelect            = { handleWorkerSelect }
-                        onCall              = { handleCall }
-                        onTrack             = { handleTrackWorker }
+                        //onCall              = { handleCall }
+                        //onTrack             = { handleTrackWorker }
                         // onAssign            = { assignWorker }
                         // onUnassign          = { unassignWorker }
-                        formatDistance      = { formatDistance }
+                        //formatDistance      = { formatDistance }
                     />
                 ))}
             </div>

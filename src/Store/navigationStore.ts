@@ -4,6 +4,16 @@ import React from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+export interface WorkerData {
+    id:             string;
+    name:           string;
+    status:         'available' | 'busy' | 'offline' | 'on_break';
+    avatarUrl:      string;
+    role:           string;
+    rating:         number;
+    in_work:        number;
+    completed:      number;
+}
 
 export const useNavigationStore = create<any>()(
   devtools(

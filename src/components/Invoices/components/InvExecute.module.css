@@ -149,11 +149,42 @@
 
 .labelIcon { color: #3b82f6; font-size: 18px; }
 
-/* СТАТУСЫ */
+/* СТАТУСЫ: одна строка — иконка, "Новый статус", текущий статус; по клику открывается список */
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.statusRow:hover {
+  background: rgba(59, 130, 246, 0.06);
+}
+.statusLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.statusCurrentChip {
+  margin-left: auto;
+  flex-shrink: 0;
+}
 .statusOptions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
 }
 
 /* ИСПОЛНИТЕЛИ: Поиск и Фильтры */
@@ -234,6 +265,12 @@
 .executorCard:hover {
   border-color: #3b82f6;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.executorPlaceholderText {
+  font-size: 14px;
+  color: #94a3b8;
+  text-align: center;
 }
 
 .executorSelected {

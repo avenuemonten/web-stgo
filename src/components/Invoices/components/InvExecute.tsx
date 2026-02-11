@@ -6,7 +6,9 @@ import { Invoice } from './InvoiceList/InvoiceItem';
 import { 
   closeOutline, personOutline, statsChartOutline, chatbubbleOutline, 
   star, checkmarkCircle, alertCircle, timeOutline, flagOutline, saveOutline,
-  searchOutline, filterOutline, constructOutline, closeCircleOutline
+  searchOutline, filterOutline, constructOutline, closeCircleOutline,
+  addOutline,
+  addCircleOutline
 } from 'ionicons/icons';
 
 interface Executor {
@@ -59,7 +61,9 @@ export const InvExecute: React.FC<ActExecutionModalProps> = ({
   const [priority, setPriority] = useState<string>('normal');
   
   // Ставим статус, который сервер ждет
-  const [status, setStatus] = useState<WorkStatus>(getNextStatus(invoice.status));
+  const [status, setStatus] = useState<WorkStatus>(invoice.status as WorkStatus);
+  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
+  const [executorDropdownOpen, setExecutorDropdownOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Поиск и фильтры
@@ -122,21 +126,22 @@ export const InvExecute: React.FC<ActExecutionModalProps> = ({
   const getStatusColor = (st: WorkStatus) => {
       switch(st) {
           case 'Выполнена': return 'success';
-          case 'В работе': return 'warning'; // Оранжевый для "В работе"
-          case 'Отменена': return 'danger';
-          case 'Новый': return 'primary';
-          case 'Отложена': return 'medium';
-          default: return 'primary';
+          case 'В работе':  return 'warning'; // Оранжевый для "В работе"
+          case 'Отменена':  return 'danger';
+          case 'Новый':     return 'primary';
+          case 'Отложена':  return 'medium';
+          default:          return 'primary';
       }
   };
 
   const getStatusIcon = (st: WorkStatus) => {
     switch (st) {
-      case 'В работе': return constructOutline;
+      case 'Новый':     return addCircleOutline;
+      case 'В работе':  return constructOutline;
       case 'Выполнена': return checkmarkCircle;
-      case 'Отложена': return alertCircle;
-      case 'Отменена': return closeCircleOutline;
-      default: return statsChartOutline;
+      case 'Отложена':  return alertCircle;
+      case 'Отменена':  return closeCircleOutline;
+      default:          return statsChartOutline;
     }
   };
 
@@ -173,104 +178,168 @@ export const InvExecute: React.FC<ActExecutionModalProps> = ({
 
           <form onSubmit={handleSubmit} className={styles.executionForm}>
             
-            {/* 1. СТАТУС (Правильные значения) */}
+            {/* 1. СТАТУС: иконка + "Новый статус" + текущий статус в одной строке, по клику — список */}
             <div className={styles.formSection}>
-              <label className={styles.sectionLabel}>
-                <IonIcon icon={statsChartOutline} className={styles.labelIcon}/>
-                Новый статус
-              </label>
-              <div className={styles.statusOptions}>
-                {/* Список только тех статусов, которые нужны */}
-                {(['В работе', 'Выполнена', 'Отложена', 'Отменена'] as WorkStatus[]).map((st) => (
-                  <IonChip
-                    key={st}
-                    outline={status !== st}
-                    color={getStatusColor(st)}
-                    onClick={() => setStatus(st)}
-                  >
-                    <IonIcon icon={getStatusIcon(st)} />
-                    <span style={{marginLeft: 4}}>{st}</span>
-                  </IonChip>
-                ))}
-              </div>
+              <button
+                type="button"
+                className={styles.statusRow}
+                onClick={() => setStatusDropdownOpen((v) => !v)}
+                aria-expanded={statusDropdownOpen}
+              >
+                <IonIcon icon={statsChartOutline} className={styles.labelIcon} />
+                <span className={styles.statusLabel}>Новый статус</span>
+                <IonChip
+                  outline={false}
+                  color={getStatusColor(status)}
+                  className={styles.statusCurrentChip}
+                >
+                  <IonIcon icon={getStatusIcon(status)} />
+                  <span style={{ marginLeft: 4 }}>{status}</span>
+                </IonChip>
+              </button>
+              {statusDropdownOpen && (
+                <div className={styles.statusOptions}>
+                  {(['Новый', 'В работе', 'Выполнена', 'Отложена', 'Отменена'] as WorkStatus[]).map((st) => (
+                    <IonChip
+                      key={st}
+                      outline={status !== st}
+                      color={getStatusColor(st)}
+                      onClick={() => {
+                        setStatus(st);
+                        setStatusDropdownOpen(false);
+                      }}
+                    >
+                      <IonIcon icon={getStatusIcon(st)} />
+                      <span style={{ marginLeft: 4 }}>{st}</span>
+                    </IonChip>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* 2. ИСПОЛНИТЕЛЬ */}
+            {/* 2. ИСПОЛНИТЕЛЬ: вместо списка показываем один выбранный, либо такой же айтем \"Исполнитель не выбран\" */}
             <div className={styles.formSection}>
               <div className={styles.sectionHeader}>
                 <label className={styles.sectionLabel}>
-                  <IonIcon icon={personOutline} className={styles.labelIcon}/>
+                  <IonIcon icon={personOutline} className={styles.labelIcon} />
                   Исполнитель
                 </label>
               </div>
 
-              {/* Поиск */}
-              <div className={styles.searchContainer}>
-                 <IonIcon icon={searchOutline} className={styles.searchIcon} />
-                 <input 
-                    type="text" 
-                    className={styles.searchInput} 
-                    placeholder="Поиск сотрудника..." 
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                 />
-              </div>
-
-              {/* Фильтры */}
-              <div className={styles.filtersContainer}>
-                 <button 
-                    type="button"
-                    className={`${styles.filterChip} ${filterWorkload === 'all' && !filterRating ? styles.filterChipActive : ''}`}
-                    onClick={() => { setFilterWorkload('all'); setFilterRating(false); }}
-                 >
-                    Все
-                 </button>
-                 <button 
-                    type="button"
-                    className={`${styles.filterChip} ${filterWorkload === 'low' ? styles.filterChipActive : ''}`}
-                    onClick={() => setFilterWorkload(filterWorkload === 'low' ? 'all' : 'low')}
-                 >
-                    Мало задач
-                 </button>
-                 <button 
-                    type="button"
-                    className={`${styles.filterChip} ${filterRating ? styles.filterChipActive : ''}`}
-                    onClick={() => setFilterRating(!filterRating)}
-                 >
-                    Высокий рейтинг
-                 </button>
-              </div>
-              
-              <div className={styles.executorsList}>
-                {filteredExecutors.length === 0 ? (
-                  <div className={styles.emptyState}>Нет сотрудников по запросу</div>
-                ) : (
-                  filteredExecutors.map((ex) => (
-                    <div
-                      key={ex.id}
-                      className={`${styles.executorCard} ${selectedExecutor?.id === ex.id ? styles.executorSelected : ''} ${!ex.isAvailable ? styles.executorDisabled : ''}`}
-                      onClick={() => setSelectedExecutor(ex)}
-                    >
-                      <div className={styles.executorMain}>
-                        <div className={styles.executorName}>
-                          {ex.name} <span className={styles.executorRole}>{ex.role}</span>
-                        </div>
-                        <div className={styles.executorRating}>
-                          <IonIcon icon={star} /> {ex.rating.toFixed(1)}
-                        </div>
+              {/* Один айтем: выбранный исполнитель или плейсхолдер */}
+              <div
+                className={styles.executorCard}
+                onClick={() => setExecutorDropdownOpen((v) => !v)}
+              >
+                {selectedExecutor ? (
+                  <>
+                    <div className={styles.executorMain}>
+                      <div className={styles.executorName}>
+                        {selectedExecutor.name}{' '}
+                        <span className={styles.executorRole}>{selectedExecutor.role}</span>
                       </div>
-                      <div className={styles.executorMeta}>
-                        <div className={`${styles.workloadBadge} ${getWorkloadClass(ex.currentWorkload)}`}>
-                           Загрузка: {getWorkloadText(ex.currentWorkload)}
-                        </div>
-                        <div className={ex.isAvailable ? styles.available : styles.unavailable}>
-                           {ex.isAvailable ? 'Доступен' : 'Занят'}
-                        </div>
+                      <div className={styles.executorRating}>
+                        <IonIcon icon={star} /> {selectedExecutor.rating.toFixed(1)}
                       </div>
                     </div>
-                  ))
+                    <div className={styles.executorMeta}>
+                      <div className={`${styles.workloadBadge} ${getWorkloadClass(selectedExecutor.currentWorkload)}`}>
+                        Загрузка: {getWorkloadText(selectedExecutor.currentWorkload)}
+                      </div>
+                      <div className={selectedExecutor.isAvailable ? styles.available : styles.unavailable}>
+                        {selectedExecutor.isAvailable ? 'Доступен' : 'Занят'}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className={styles.executorPlaceholderText}>Исполнитель не выбран</div>
                 )}
               </div>
+
+              {/* Полный список открывается только по клику по айтему */}
+              {executorDropdownOpen && (
+                <>
+                  <div className={styles.searchContainer}>
+                    <IonIcon icon={searchOutline} className={styles.searchIcon} />
+                    <input
+                      type="text"
+                      className={styles.searchInput}
+                      placeholder="Поиск сотрудника..."
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                    />
+                  </div>
+
+                  <div className={styles.filtersContainer}>
+                    <button
+                      type="button"
+                      className={`${styles.filterChip} ${filterWorkload === 'all' && !filterRating ? styles.filterChipActive : ''}`}
+                      onClick={() => {
+                        setFilterWorkload('all');
+                        setFilterRating(false);
+                      }}
+                    >
+                      Все
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.filterChip} ${filterWorkload === 'low' ? styles.filterChipActive : ''}`}
+                      onClick={() =>
+                        setFilterWorkload(filterWorkload === 'low' ? 'all' : 'low')
+                      }
+                    >
+                      Мало задач
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.filterChip} ${filterRating ? styles.filterChipActive : ''}`}
+                      onClick={() => setFilterRating(!filterRating)}
+                    >
+                      Высокий рейтинг
+                    </button>
+                  </div>
+
+                  <div className={styles.executorsList}>
+                    {filteredExecutors.length === 0 ? (
+                      <div className={styles.emptyState}>Нет сотрудников по запросу</div>
+                    ) : (
+                      filteredExecutors.map((ex) => (
+                        <div
+                          key={ex.id}
+                          className={`${styles.executorCard} ${
+                            selectedExecutor?.id === ex.id ? styles.executorSelected : ''
+                          } ${!ex.isAvailable ? styles.executorDisabled : ''}`}
+                          onClick={() => {
+                            setSelectedExecutor(ex);
+                            setExecutorDropdownOpen(false);
+                          }}
+                        >
+                          <div className={styles.executorMain}>
+                            <div className={styles.executorName}>
+                              {ex.name} <span className={styles.executorRole}>{ex.role}</span>
+                            </div>
+                            <div className={styles.executorRating}>
+                              <IonIcon icon={star} /> {ex.rating.toFixed(1)}
+                            </div>
+                          </div>
+                          <div className={styles.executorMeta}>
+                            <div
+                              className={`${styles.workloadBadge} ${getWorkloadClass(
+                                ex.currentWorkload
+                              )}`}
+                            >
+                              Загрузка: {getWorkloadText(ex.currentWorkload)}
+                            </div>
+                            <div className={ex.isAvailable ? styles.available : styles.unavailable}>
+                              {ex.isAvailable ? 'Доступен' : 'Занят'}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* 3. ПРИОРИТЕТ */}
