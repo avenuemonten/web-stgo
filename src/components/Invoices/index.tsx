@@ -27,6 +27,7 @@ const Invoices: React.FC = () => {
     format_date,
     uppdate_address,
     upd_worker,
+    upd_lic,
     get_inv_status
   } = useHook();
 
@@ -68,14 +69,16 @@ const Invoices: React.FC = () => {
   }, [item]);
 
   const filteredInvoices = useMemo(() => {
-    return invoices.filter(inv => {
+    const jarr =  invoices.filter(inv => {
       const search = searchText.toLowerCase();
       return (
-        inv.number.toLowerCase().includes(search) ||
-        (inv.address?.address || '').toLowerCase().includes(search) ||
-        inv.status.toLowerCase().includes(search)
+        inv.number.toLowerCase().includes(search) 
+        || (inv.applicant).toLowerCase().includes(search) 
+  //        || inv.status.toLowerCase().includes(search)
       );
     });
+
+    return jarr;
   }, [invoices, searchText]);
 
   const sortedWorkers = useMemo(() => {
@@ -99,6 +102,14 @@ const Invoices: React.FC = () => {
   const handleUpdateWorker = async (worker: any) => {
     if (item) {
         await upd_worker(item.id, worker);
+        setUpdate(update + 1);
+    }
+  };
+  const handleUpdateLic = async ( lic: any ) => {
+    console.log("onUpdatyLic", lic)
+    if (item) {
+        console.log("item", item)
+        await upd_lic(item.id, lic );
         setUpdate(update + 1);
     }
   };
@@ -188,13 +199,14 @@ const Invoices: React.FC = () => {
         <InvoiceView
             isOpen={view}
             invoice={item}
-            invoiceStatus={get_inv_status(item)}
-            formatDate={format_date}
-            formatPhone={format_phone}
-            onNavigateToActs={() => { setView(false); setExec(true); }}
-            onNavigateToPrint={() => {}}
-            onUpdateAddress={handleUpdateAddress}
-            onClose={() => { setView(false); setItem(null); }}
+            invoiceStatus       = { get_inv_status(item) }
+            formatDate          = { format_date }
+            formatPhone         = { format_phone }
+            onUpdateLic         = { handleUpdateLic }
+            onNavigateToActs    = { () => { setView(false); setExec(true); } }
+            onNavigateToPrint   = { () => {} }
+            onUpdateAddress     = { handleUpdateAddress }
+            onClose             = { () => { setView(false); setItem(null); } }
         />
       )}
 

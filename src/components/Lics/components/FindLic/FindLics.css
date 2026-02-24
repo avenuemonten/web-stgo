@@ -12,7 +12,7 @@
 .lics-form-modal {
   --height: auto;
   /* Добавил минимальную высоту, чтобы окно не было сплющенным */
-  --min-height: 500px; 
+  --min-height: 700px;
   --width: 100%;
   --max-width: 600px;
   --max-height: 90vh;
@@ -23,7 +23,7 @@
 
 .lics-form-modal::part(content) {
   border-radius: 20px;
-  overflow: hidden;
+  overflow: scroll;
   display: flex;
   flex-direction: column;
 }
@@ -39,7 +39,8 @@
   box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
   flex-shrink: 0;
   min-height: 64px;
-  z-index: 10; /* Шапка поверх контента */
+  z-index: 10;
+  /* Шапка поверх контента */
 }
 
 .find-lics-title {
@@ -66,19 +67,18 @@
   transition: all 0.2s;
   font-size: 18px;
 }
-.close-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
 
 /* --- КОНТЕНТ --- */
 .find-lics-content {
   background: #f8fafc;
   padding: 20px;
-  overflow-y: auto; /* Скролл здесь */
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  flex: 1;
+  overflow-y: auto;
   /* ВАЖНО: Добавляем место снизу, чтобы выпадающему списку было куда открываться */
-  padding-bottom: 250px; 
+  padding-bottom: 250px;
   min-height: 400px;
 }
 
@@ -95,7 +95,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .info-crumb-icon {
@@ -106,15 +106,16 @@
 
 /* --- УРОВНИ ВЫБОРА --- */
 .lics-level-container {
+  margin-top: 0.3em;
   background: white;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  padding: 0.5em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
   transition: all 0.2s ease;
   animation: slideUp 0.3s ease-out;
   /* Чтобы dropdown мог выходить за границы карточки уровня, если нужно */
-  position: relative; 
+  position: relative;
   z-index: 1;
 }
 
@@ -122,13 +123,20 @@
 .lics-level-container:hover,
 .lics-level-container:focus-within {
   border-color: #cbd5e1;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  z-index: 100; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  z-index: 100;
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .lics-level-label {

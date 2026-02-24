@@ -3,7 +3,7 @@ import { useInvoices } from '../../Store/invoiceStore'; // Проверь пут
 import { useToken, useLoading } from '../../Store/loginStore';
 import { useToast } from '../Toast';
 import { post } from '../../Store/api';
-import { useNavigationStore } from '../../Store/navigationStore';
+import { useItem, useNavigationStore } from '../../Store/navigationStore';
 
 // Функция для приведения данных от 1С к нормальному виду
 const normalizeInvoice = (inv: any) => {
@@ -27,6 +27,7 @@ const normalizeInvoice = (inv: any) => {
 
 export const useHook = () => {
   const { data: invoices, setData, update, setUpdate } = useInvoices();
+  const { item, setItem } = useItem();
   const { token } = useToken();
   const toast = useToast();
   const { loading, setLoading } = useLoading();
@@ -133,28 +134,49 @@ export const useHook = () => {
   }, [ token, invoices, setData, toast ]);
 
   const upd_worker = useCallback(async( id: string, worker: any ) => {
-      const res = await post( "set_inv_worker", { token, id, worker: worker.worker.id, status: worker.status });
-      if(res.success){
-        let jarr = invoices.map( ( inv: any ) =>
-              (inv.id === id || inv.Ссылка === id)
-                ? { 
-                    ...inv, 
-                    worker: worker.worker, // UI
-                    Работник: worker.worker, // 1C
-                    status: worker.status, // UI
-                    Статус: worker.status // 1C
-                  }
-                : inv
-        );
-        setData( jarr );
+    const res = await post( "set_inv_worker", { token, id, worker: worker.worker.id, status: worker.status });
+    if(res.success){
+      let jarr = invoices.map( ( inv: any ) =>
+            (inv.id === id || inv.Ссылка === id)
+              ? { 
+                  ...inv, 
+                  worker: worker.worker, // UI
+                  Работник: worker.worker, // 1C
+                  status: worker.status, // UI
+                  Статус: worker.status // 1C
+                }
+              : inv
+      );
+      setData( jarr );
 
-      } else {
-        toast.error("Ошибка назначения");
-      }
-      return res;
+    } else {
+      toast.error("Ошибка назначения");
+    }
+    return res;
   }, [ token, invoices, setData, toast ]);
 
-  return {
+  const upd_lic = useCallback(async( id: string, lic: any ) => {
+    const res = await post( "set_inv_lic", { token, id, lic: lic.id });
+    console.log("upd_lic", res)
+    if(res.success){
+      let jarr = invoices.map( ( inv: any ) =>
+            (inv.id === id || inv.Ссылка === id)
+              ? { 
+                  ...inv, 
+                  lic: lic
+                }
+              : inv
+      );
+      setData( jarr );
+      setItem({ ...item, lic: lic });
+
+    } else {
+      toast.error("Ошибка назначения");
+    }
+    return res;
+  }, [ token, invoices, setData, toast ]);
+
+return {
     update,
     loading,
     invoices,
@@ -163,6 +185,7 @@ export const useHook = () => {
     format_date,
     uppdate_address,
     upd_worker,
+    upd_lic,
     format_phone
   };
 };

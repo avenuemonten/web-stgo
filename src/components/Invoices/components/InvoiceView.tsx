@@ -25,6 +25,7 @@ interface InvoiceModalProps {
   onNavigateToActs:   () => void;
   onNavigateToPrint:  () => void;
   onUpdateAddress?:   (invoiceId: string, newAddress: any) => void;
+  onUpdateLic?:       ( lic: any ) => void;
   isOpen:             boolean;
   onClose:            () => void;
 }
@@ -35,6 +36,7 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
   onNavigateToActs,
   onNavigateToPrint,
   onUpdateAddress,
+  onUpdateLic,
   isOpen,
   onClose
 }) => {
@@ -240,13 +242,13 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
       </IonModal>
 
       <FindLics
+        address = { getDisplayAddress() }
         isOpen={isUpdatingLic}
         onClose={() => setIsUpdatingLic(false)}
         onSelect={(item: any) => {
             if (item?.type === 'lics' && item?.name) {
                 const newLic = { code: item.name, id: item.id, name: item.name };
-                updateItem({ ...safeInvoice, lic: newLic });
-                setItem({ ...safeInvoice, lic: newLic });
+                if(onUpdateLic) onUpdateLic( newLic )
             }
             setIsUpdatingLic(false);
         }}

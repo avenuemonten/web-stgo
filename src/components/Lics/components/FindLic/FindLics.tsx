@@ -14,6 +14,7 @@ interface LicsFormProps {
 }
 
 const FindLics: React.FC<LicsFormProps> = ({ 
+    address,
     onSelect, 
     isOpen, 
     onClose 
@@ -110,9 +111,15 @@ const FindLics: React.FC<LicsFormProps> = ({
             >
                 {/* ШАПКА */}
                 <div className="find-lics-header">
-                    <div className="find-lics-title">
-                        <IonIcon icon={searchOutline} />
-                        Поиск лицевого счета
+                    <div>
+                        <div className="find-lics-title">
+                            <IonIcon icon={searchOutline} />
+                            <span className='ml-05'>Поиск лицевого счета</span>
+                        </div>
+                        <div className='ml-2'>
+                            { address}
+                        </div>
+
                     </div>
                     <button onClick={onClose} className="close-btn">
                         <IonIcon icon={closeOutline} />

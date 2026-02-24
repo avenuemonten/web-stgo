@@ -100,7 +100,7 @@ export const InvMap: React.FC<any> = ({
         <div className={styles.invoicePageWithMap}> 
             <div className={styles.invoicesPanel}>
                 <div className={styles.invoicePageHeader}> 
-                    <h2 className={styles.invoicePageTitle}>Заявки</h2> 
+                    <h2 className={styles.invoicePageTitle}>Зая вки</h2> 
                     <p className={styles.invoicePageSubtitle}>Всего: {invoices.length}</p> 
                 </div> 
 
