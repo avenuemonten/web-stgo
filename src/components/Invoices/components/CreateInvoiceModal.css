@@ -1,20 +1,37 @@
-/* Мягкая закругленная модалка */
-ion-modal.stgo-modal::part(content) {
-  border-radius: 20px;
+/* ИДЕАЛЬНАЯ ОБЕРТКА ИЗ INVEXECUTE */
+.modalOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 11000;
+  padding: 16px;
+}
+
+.modalContent {
+  width: 100%;
   max-width: 680px;
-  width: calc(100% - 24px);
-  height: 85vh;       
   max-height: 90vh;
-  display: flex;      
-  flex-direction: column;
+  height: 85vh;
+  background: #ffffff;
+  border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-ion-modal.stgo-modal::part(backdrop) {
-  background: rgba(15, 23, 42, 0.45);
+@keyframes slideInUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-ion-modal.stgo-modal ion-content {
+.custom-ion-content {
   flex: 1 1 auto;
   --background: #f8fafc;
 }
@@ -23,6 +40,7 @@ ion-modal.stgo-modal ion-content {
 .create-invoice-modal__toolbar {
   --padding-top: 8px;
   --padding-bottom: 8px;
+  --background: #ffffff;
 }
 
 .create-invoice-modal__title {
@@ -68,7 +86,7 @@ ion-modal.stgo-modal ion-content {
   margin: 0;
 }
 
-/* Мягкие элементы ввода (Скругленный карточный стиль) */
+/* Мягкие элементы ввода */
 .modern-input-item {
   --background: #ffffff;
   --border-radius: 16px;
@@ -145,7 +163,7 @@ ion-modal.stgo-modal ion-content {
   cursor: not-allowed;
 }
 
-/* Иконка лупы для кликабельного адреса (Жестко зафиксирована) */
+/* ЖЕСТКО ЗАФИКСИРОВАННАЯ ЛУПА АДРЕСА */
 .action-icon {
   color: #3b82f6;
   font-size: 24px !important;
