@@ -1,6 +1,5 @@
-/* InvExecute.module.css */
+/* InvExecute.module.css - MODERN STYLE */
 
-/* ... (Предыдущие стили модалки остаются теми же, обновляем только внутренности) ... */
 .modalOverlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -17,9 +16,9 @@
   width: 100%;
   max-width: 600px;
   max-height: 90vh;
-  background: #f8fafc;
-  border-radius: 20px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  background: #f8f9fc; /* Светло-серый фон как в CreateInvoiceModal */
+  border-radius: 24px; /* Современные скругления */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -33,39 +32,42 @@
 
 /* --- ШАПКА --- */
 .modalHeader {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: #ffffff; /* Убрал синий градиент */
   padding: 16px 20px;
-  color: white;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  z-index: 10;
 }
 
 .modalTitle {
-  font-size: 16px;
+  font-size: 1.25rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: #0f172a;
   margin: 0;
 }
 
 .closeButton {
-  background: rgba(255, 255, 255, 0.2);
+  background: transparent;
   border: none;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  color: #64748b; /* Серая иконка */
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 18px;
+  font-size: 24px;
 }
-.closeButton:hover { background: rgba(255, 255, 255, 0.3); }
+
+.closeButton:hover { 
+  background: #f1f5f9; 
+  color: #3b82f6; 
+}
 
 /* --- ТЕЛО --- */
 .modalBody {
@@ -76,10 +78,13 @@
   flex-direction: column;
 }
 
+/* --- ИНФО О ЗАЯВКЕ --- */
 .invoiceInfo {
   background: white;
+  margin: 16px;
   padding: 20px;
-  border-bottom: 1px solid #e2e8f0;
+  border-radius: 16px; /* Карточный стиль */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .infoHeader {
@@ -99,9 +104,8 @@
 .statusChip {
   background: #eff6ff;
   color: #3b82f6;
-  border: 1px solid #dbeafe;
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 6px 12px;
+  border-radius: 30px;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -124,89 +128,101 @@
 
 /* --- ФОРМА --- */
 .executionForm {
-  padding: 24px 20px;
+  padding: 0 16px 24px 16px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .formSection {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .sectionLabel {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
+  margin-left: 4px;
 }
 
 .labelIcon { color: #3b82f6; font-size: 18px; }
 
-/* СТАТУСЫ: одна строка — иконка, "Новый статус", текущий статус; по клику открывается список */
+/* СТАТУСЫ */
 .statusRow {
   display: flex;
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 8px 0;
-  background: none;
+  padding: 12px 16px;
+  background: #ffffff; /* Карточка для статуса */
   border: none;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   cursor: pointer;
   text-align: left;
-  border-radius: 10px;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
+
 .statusRow:hover {
-  background: rgba(59, 130, 246, 0.06);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
+
 .statusLabel {
-  font-size: 13px;
-  font-weight: 700;
-  color: #475569;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
   flex-shrink: 0;
 }
+
 .statusCurrentChip {
   margin-left: auto;
   flex-shrink: 0;
 }
+
 .statusOptions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid #e2e8f0;
+  margin-top: 4px;
+  padding: 12px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 /* ИСПОЛНИТЕЛИ: Поиск и Фильтры */
 .searchContainer {
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .searchInput {
   width: 100%;
-  padding: 10px 12px 10px 36px;
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
+  padding: 12px 16px 12px 40px;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
-.searchInput:focus { border-color: #3b82f6; }
+
+.searchInput:focus { 
+  box-shadow: 0 0 0 2px #3b82f6; 
+}
 
 .searchIcon {
   position: absolute;
-  left: 10px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
   color: #94a3b8;
@@ -217,16 +233,17 @@
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding-bottom: 4px;
-  scrollbar-width: none; /* Firefox */
+  padding-bottom: 8px;
+  scrollbar-width: none; 
 }
-.filtersContainer::-webkit-scrollbar { display: none; } /* Chrome */
+.filtersContainer::-webkit-scrollbar { display: none; } 
 
 .filterChip {
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 20px;
   background: white;
-  border: 1px solid #e2e8f0;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   font-size: 12px;
   font-weight: 600;
   color: #64748b;
@@ -239,8 +256,8 @@
 
 .filterChipActive {
   background: #eff6ff;
-  border-color: #3b82f6;
   color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
 }
 
 /* СПИСОК ИСПОЛНИТЕЛЕЙ */
@@ -248,78 +265,150 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: 250px; /* Ограничим высоту, чтобы влезало */
+  max-height: 250px;
   overflow-y: auto;
   padding-right: 4px;
 }
 
 .executorCard {
   background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 12px 16px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
+  padding: 14px 16px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .executorCard:hover {
-  border-color: #3b82f6;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .executorPlaceholderText {
   font-size: 14px;
   color: #94a3b8;
   text-align: center;
+  font-weight: 500;
 }
 
 .executorSelected {
-  border-color: #3b82f6;
   background: #eff6ff;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 2px #3b82f6;
 }
 
-.executorDisabled { opacity: 0.6; background: #f1f5f9; pointer-events: none; }
+.executorDisabled { opacity: 0.6; background: #f1f5f9; pointer-events: none; box-shadow: none; }
 
-.executorMain { display: flex; justify-content: space-between; margin-bottom: 4px; }
-.executorName { font-weight: 700; color: #0f172a; font-size: 14px; }
+.executorMain { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.executorName { font-weight: 700; color: #0f172a; font-size: 15px; }
 .executorRole { font-size: 12px; color: #64748b; font-weight: 500; margin-left: 6px; }
-.executorRating { font-size: 12px; font-weight: 600; color: #f59e0b; display: flex; align-items: center; gap: 4px; }
+.executorRating { font-size: 13px; font-weight: 600; color: #f59e0b; display: flex; align-items: center; gap: 4px; }
 
 .executorMeta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
 
-.workloadBadge { padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+.workloadBadge { padding: 4px 10px; border-radius: 8px; font-weight: 600; }
 .workloadLow { background: #dcfce7; color: #166534; }
 .workloadMedium { background: #ffedd5; color: #9a3412; }
 .workloadHigh { background: #fee2e2; color: #991b1b; }
 
 .availability { font-weight: 600; }
-.available { color: #16a34a; }
-.unavailable { color: #dc2626; }
+.available { color: #10b981; }
+.unavailable { color: #ef4444; }
 
 /* ОСТАЛЬНОЕ */
 .priorityOptions {
   display: flex;
   background: white;
   padding: 4px;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
-.priorityLabel { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
+.priorityLabel { 
+  flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 600; 
+  color: #64748b; cursor: pointer; border-radius: 12px; transition: all 0.2s; 
+}
 .priorityOption input { display: none; }
-.priorityOption input:checked + .priorityLabel { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); color: #0f172a; }
+.priorityOption input:checked + .priorityLabel { background: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1); color: #0f172a; }
 .priorityOption input:checked + .priorityLabel.p-low { background: #dcfce7; color: #166534; }
 .priorityOption input:checked + .priorityLabel.p-normal { background: #eff6ff; color: #1e40af; }
 .priorityOption input:checked + .priorityLabel.p-high { background: #fee2e2; color: #991b1b; }
 
 .commentTextarea {
-  width: 100%; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px;
-  font-size: 14px; min-height: 80px; outline: none; font-family: inherit;
+  width: 100%; 
+  background: white;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 16px; 
+  padding: 16px;
+  font-size: 14px; 
+  min-height: 100px; 
+  outline: none; 
+  font-family: inherit;
+  resize: vertical;
 }
-.commentTextarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
 
-.formActions { display: flex; gap: 12px; margin-top: 12px; }
-.cancelButton { flex: 1; padding: 12px; background: white; border: 1px solid #e2e8f0; border-radius: 10px; font-weight: 600; color: #64748b; cursor: pointer; }
-.submitButton { flex: 2; padding: 12px; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); border: none; border-radius: 10px; font-weight: 600; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3); }
-.submitButton:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; }
-.emptyState { text-align: center; padding: 20px; color: #94a3b8; font-size: 14px; }
+.commentTextarea:focus { 
+  box-shadow: 0 0 0 2px #3b82f6; 
+}
+
+.formActions { 
+  display: flex; 
+  gap: 12px; 
+  margin-top: 16px; 
+}
+
+.cancelButton { 
+  flex: 1; 
+  padding: 14px; 
+  background: transparent; 
+  border: 2px solid #e2e8f0; 
+  border-radius: 14px; 
+  font-weight: 600; 
+  color: #64748b; 
+  cursor: pointer; 
+  transition: all 0.2s;
+}
+
+.cancelButton:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.submitButton { 
+  flex: 2; 
+  padding: 14px; 
+  background: #3b82f6; 
+  border: none; 
+  border-radius: 14px; 
+  font-weight: 600; 
+  color: white; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 8px; 
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35); 
+  transition: all 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.submitButton:disabled { 
+  background: #cbd5e1; 
+  box-shadow: none; 
+  cursor: not-allowed; 
+}
+
+.emptyState { 
+  text-align: center; 
+  padding: 20px; 
+  color: #94a3b8; 
+  font-size: 14px; 
+}

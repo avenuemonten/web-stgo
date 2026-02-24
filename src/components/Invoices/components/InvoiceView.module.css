@@ -1,4 +1,4 @@
-/* InvoiceView.module.css - MODERN STYLE */
+/* InvoiceView.module.css - MODERN STYLE MATCHING CreateInvoiceModal */
 
 /* --- МОДАЛЬНОЕ ОКНО --- */
 .modalOverlay {
@@ -15,11 +15,12 @@
 
 .modalContent {
   width: 100%;
-  max-width: 550px;
+  max-width: 680px; /* Сделал ширину как в форме создания (было 550) */
+  height: 78vh;     /* Твой фикс высоты */
   max-height: 90vh;
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  background: #f8f9fc; /* Светлый фон как в IonContent */
+  border-radius: 24px; /* Современное скругление */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -33,22 +34,25 @@
 
 /* --- ШАПКА --- */
 .modalHeader {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: #ffffff; /* Убрал градиент, сделал чистый белый как в IonHeader */
   padding: 16px 20px;
-  color: white;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  z-index: 10;
+}
+
+.modalToolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
 }
 
 .modalTitle {
-  font-size: 16px;
+  font-size: 1.25rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: #0f172a;
   margin: 0;
+  flex: 1;
 }
 
 .headerButtons {
@@ -57,9 +61,9 @@
 }
 
 .iconBtn {
-  background: rgba(255, 255, 255, 0.2);
+  background: transparent;
   border: none;
-  color: white;
+  color: #64748b; /* Серые иконки как в CreateInvoiceModal */
   width: 34px;
   height: 34px;
   border-radius: 10px;
@@ -68,32 +72,34 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 18px;
+  font-size: 24px; /* Чуть крупнее */
 }
 
 .iconBtn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+  background: #f1f5f9;
+  color: #3b82f6;
 }
 
 /* --- ТЕЛО --- */
 .modalBody {
   flex: 1;
   overflow-y: auto;
-  background: #f8fafc;
-  padding: 0;
+  background: #f8f9fc;
+  padding: 16px;
   display: flex;
   flex-direction: column;
+  gap: 16px; /* Отступы между блоками */
 }
 
 /* --- БЛОК НОМЕРА --- */
 .heroSection {
   background: white;
   padding: 24px 20px;
-  border-bottom: 1px solid #e2e8f0;
+  border-radius: 16px; /* Скругление */
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); /* Легкая тень */
 }
 
 .heroInfo {
@@ -130,37 +136,35 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.statusNew { background: #eff6ff; color: #2563eb; border: 1px solid #dbeafe; }
-.statusWork { background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; }
-.statusDone { background: #f0fdf4; color: #16a34a; border: 1px solid #dcfce7; }
-.statusFail { background: #fef2f2; color: #dc2626; border: 1px solid #fee2e2; }
+.statusNew { background: #eff6ff; color: #3b82f6; }
+.statusWork { background: #fff7ed; color: #f97316; }
+.statusDone { background: #f0fdf4; color: #10b981; }
+.statusFail { background: #fef2f2; color: #ef4444; }
 
 /* --- СПИСОК ДЕТАЛЕЙ --- */
 .detailsList {
   display: flex;
   flex-direction: column;
-  padding: 12px;
-  gap: 12px;
+  gap: 8px; /* Как в форме создания */
 }
 
 .detailCard {
   background: white;
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 16px; /* Карточный стиль */
+  padding: 12px 16px;
   display: flex;
-  align-items: flex-start;
+  align-items: center; /* Центрируем по вертикали */
   gap: 16px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: none; /* Убрал грубые линии */
 }
 
 /* Красивые иконки */
 .iconBox {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -185,15 +189,14 @@
 }
 
 .label {
-  font-size: 11px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #94a3b8;
-  margin-bottom: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 2px;
 }
 
 .value {
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 500;
   color: #0f172a;
   line-height: 1.4;
@@ -213,67 +216,62 @@
 }
 
 .miniBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  background: white;
-  color: #64748b;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  color: #3b82f6; /* Делаем акцентным */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .miniBtn:hover {
-  background: #f8fafc;
-  color: #3b82f6;
-  border-color: #cbd5e1;
+  background: #eff6ff;
+  transform: scale(1.05);
 }
-
-.callBtn {
-  background: #10b981;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
-}
-
-.callBtn:active { transform: scale(0.95); }
 
 /* --- ФУТЕР --- */
 .modalFooter {
-  padding: 16px 20px;
+  padding: 16px 20px 20px;
   background: white;
-  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.03);
+  z-index: 10;
 }
 
 .mainBtn {
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  height: 48px;
+  background: #3b82f6; /* Чистый синий без градиента как submit-btn */
   color: white;
   border: none;
-  border-radius: 12px;
-  font-size: 16px;
+  border-radius: 14px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
-  transition: opacity 0.2s;
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35); /* Красивая тень */
+  transition: all 0.2s;
 }
 
-.mainBtn:hover { opacity: 0.9; }
+.mainBtn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4); }
+.mainBtn:active { transform: translateY(1px); }
+
+/* --- ГЛОБАЛЬНЫЙ КЛАСС ДЛЯ ВНУТРЕННЕГО SELECT --- */
+:global(.modern-inline-select) {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #0f172a;
+  width: 100%;
+}

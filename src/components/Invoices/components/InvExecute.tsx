@@ -217,7 +217,7 @@ export const InvExecute: React.FC<ActExecutionModalProps> = ({
               )}
             </div>
 
-            {/* 2. ИСПОЛНИТЕЛЬ: вместо списка показываем один выбранный, либо такой же айтем \"Исполнитель не выбран\" */}
+            {/* 2. ИСПОЛНИТЕЛЬ */}
             <div className={styles.formSection}>
               <div className={styles.sectionHeader}>
                 <label className={styles.sectionLabel}>

@@ -1,5 +1,5 @@
 
-const url = 'https://fhd.aostng.ru/mi/'
+const url = '/mi/'
 
 export interface TResponse {
   success:          boolean;

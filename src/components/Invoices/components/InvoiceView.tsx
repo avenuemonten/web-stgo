@@ -48,7 +48,7 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
   const { workers } = useWorkers();
   const { assignWorker } = useInvoices();
   const { token } = useToken();
-  const  updateItem = useInvoicesStore( state => state.updateItem )
+  const updateItem = useInvoicesStore( state => state.updateItem )
 
   const [localAddress, setLocalAddress] = useState<any>(invoice?.address);
   const currentInvoiceId = useRef(invoice?.id);
@@ -64,7 +64,7 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
 
   const safeInvoice = invoice as any;
 
-  // === ОБРАБОТЧИК ВЫБОРА МАСТЕРА ===
+  // === ОБРАБОТЧИК ВЫБОРА МАСТЕРА (оставляю как было в твоем коде) ===
   const handleAssignWorker = async (workerId: string) => {
       // 1. Находим объект мастера в списке
       const workerObj = workers.find((w: any) => w.id === workerId);
@@ -125,10 +125,14 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
           
           <div className={styles.modalHeader}>
             <div className={styles.modalToolbar}>
-              <div style={{flex:1}} className={styles.modalTitle}>Заявка #{safeInvoice.number}</div>
-              <div style={{display:'flex', gap:8}}>
-                <button className={styles.iconBtn} onClick={onNavigateToPrint}><IonIcon icon={printOutline} /></button>
-                <button className={styles.iconBtn} onClick={onClose}><IonIcon icon={closeOutline} /></button>
+              <div className={styles.modalTitle}>Заявка #{safeInvoice.number}</div>
+              <div className={styles.headerButtons}>
+                <button className={styles.iconBtn} onClick={onNavigateToPrint}>
+                  <IonIcon icon={printOutline} />
+                </button>
+                <button className={styles.iconBtn} onClick={onClose}>
+                  <IonIcon icon={closeOutline} />
+                </button>
               </div>
             </div>
           </div>
@@ -172,20 +176,17 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
                 </div>
               )}
 
-              {/* === ВЫБОР ИСПОЛНИТЕЛЯ === */}
+              {/* === ИСПОЛНИТЕЛЬ (только текст, как ты и просил) === */}
               <div className={styles.detailCard}>
                   <div className={`${styles.iconBox} ${styles.bgDark}`}><IonIcon icon={constructOutline} /></div>
                   <div className={styles.contentData} style={{width: '100%'}}>
                     <div className={styles.label}>Исполнитель</div>
-                    
-                    <div>
-                        {safeInvoice.worker?.name || ''}
+                    <div className={styles.value}>
+                        {safeInvoice.worker?.name || '— не назначен —'}
                     </div>
-
                   </div>
               </div>
 
-              {/* ...остальные блоки... */}
               <div className={styles.detailCard}>
                 <div className={`${styles.iconBox} ${styles.bgPurple}`}><IonIcon icon={walletOutline} /></div>
                 <div className={styles.contentData}>
@@ -225,7 +226,7 @@ export const InvoiceView: React.FC<InvoiceModalProps> = ({
       <IonModal
         isOpen={isUpdatingAddress}
         onDidDismiss={() => setIsUpdatingAddress(false)}
-        style={{ '--height': 'auto', '--max-height': '80vh', '--border-radius': '20px', '--width': '100%', '--max-width': '550px' }}
+        style={{ '--height': 'auto', '--max-height': '80vh', '--border-radius': '24px', '--width': '100%', '--max-width': '680px' }}
       >
         <AddressForm 
             initialAddress={getDisplayAddress()} 
