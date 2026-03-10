@@ -181,7 +181,7 @@ const Invoices: React.FC = () => {
                 invoice={invoice}
                 status={get_inv_status(invoice)}
                 onSelect={handleSelectInvoice}
-                onCall={() => {}}
+                onCall={() => { }}
                 formatDate={format_date}
                 formatPhone={format_phone}
                 isSelected={item?.id === invoice.id}
@@ -241,7 +241,7 @@ const Invoices: React.FC = () => {
             setView(false);
             setExec(true);
           }}
-          onNavigateToPrint={() => {}}
+          onNavigateToPrint={() => { }}
           onUpdateAddress={handleUpdateAddress}
           onClose={() => {
             setView(false);
@@ -258,6 +258,7 @@ const Invoices: React.FC = () => {
           onAssignToExecutor={handleUpdateWorker}
         />
       )}
+      
     </div>
   );
 };

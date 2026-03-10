@@ -1,55 +1,55 @@
-import React, { useCallback } from 'react'; 
-import { 
-    IonButton, 
-    IonText 
-} from '@ionic/react'; 
-import styles from './InvoiceList.module.css'; 
-import InvoiceItem from './InvoiceItem'; 
+import React, { useCallback } from 'react';
+import {
+    IonButton,
+    IonText
+} from '@ionic/react';
+import styles from './InvoiceList.module.css';
+import InvoiceItem from './InvoiceItem';
 import InvWorker from './InvWorker';
 import Maps from '../../../Maps/Maps';
 import { useWorkers } from '../../../../Store/navigationStore';
 
-export const InvMap: React.FC<any> = ({ 
-    invoices, 
-    loading, 
-    refreshing, 
-    onRefresh, 
-    onInvoiceSelect, 
-    getInvoiceStatus, 
-    formatDate, 
+export const InvMap: React.FC<any> = ({
+    invoices,
+    loading,
+    refreshing,
+    onRefresh,
+    onInvoiceSelect,
+    getInvoiceStatus,
+    formatDate,
     formatPhone
-}) => { 
+}) => {
 
-    const handleCall = useCallback((phone: string, event: React.MouseEvent) => { 
-        event.stopPropagation(); 
-        if (phone) { 
-            window.open(`tel:${phone}`); 
-        } 
-    }, []); 
+    const handleCall = useCallback((phone: string, event: React.MouseEvent) => {
+        event.stopPropagation();
+        if (phone) {
+            window.open(`tel:${phone}`);
+        }
+    }, []);
 
     const { workers } = useWorkers();
 
-    const render = (invoices: any) => { 
-        let elem = <></> 
-        
-        for(let i = 0; i < invoices.length; i++){ 
-            const invoice = invoices[i] 
-            if(invoice) 
-                elem = <> 
-                    { elem } 
-                    <InvoiceItem 
-                        key         = { invoice?.Ссылка } 
-                        invoice     = { invoice } 
-                        status      = { getInvoiceStatus(invoice) } 
-                        onSelect    = { onInvoiceSelect } 
-                        onCall      = { handleCall } 
-                        formatDate  = { formatDate } 
-                        formatPhone = { formatPhone } 
-                    /> 
-                </> 
-        } 
-        return elem 
-    } 
+    const render = (invoices: any) => {
+        let elem = <></>
+
+        for (let i = 0; i < invoices.length; i++) {
+            const invoice = invoices[i]
+            if (invoice)
+                elem = <>
+                    {elem}
+                    <InvoiceItem
+                        key={invoice?.Ссылка}
+                        invoice={invoice}
+                        status={getInvoiceStatus(invoice)}
+                        onSelect={onInvoiceSelect}
+                        onCall={handleCall}
+                        formatDate={formatDate}
+                        formatPhone={formatPhone}
+                    />
+                </>
+        }
+        return elem
+    }
 
     const handleTrackWorker = (workerId: string) => {
         // Логика отслеживания работника на карте
@@ -82,51 +82,51 @@ export const InvMap: React.FC<any> = ({
             <div className={styles.workersList}>
                 {workers.map((worker: any) => (
                     <InvWorker
-                        key                 = { worker.id }
-                        worker              = { worker }
-                        onSelect            = { handleWorkerSelect }
-                        //onCall              = { handleCall }
-                        //onTrack             = { handleTrackWorker }
-                        // onAssign            = { assignWorker }
-                        // onUnassign          = { unassignWorker }
-                        //formatDistance      = { formatDistance }
+                        key={worker.id}
+                        worker={worker}
+                        onSelect={handleWorkerSelect}
+                    //onCall              = { handleCall }
+                    //onTrack             = { handleTrackWorker }
+                    // onAssign            = { assignWorker }
+                    // onUnassign          = { unassignWorker }
+                    //formatDistance      = { formatDistance }
                     />
                 ))}
             </div>
         );
     };
 
-    return ( 
-        <div className={styles.invoicePageWithMap}> 
+    return (
+        <div className={styles.invoicePageWithMap}>
             <div className={styles.invoicesPanel}>
-                <div className={styles.invoicePageHeader}> 
-                    <h2 className={styles.invoicePageTitle}>Зая вки</h2> 
-                    <p className={styles.invoicePageSubtitle}>Всего: {invoices.length}</p> 
-                </div> 
+                <div className={styles.invoicePageHeader}>
+                    <h2 className={styles.invoicePageTitle}>Заявки</h2>
+                    <p className={styles.invoicePageSubtitle}>Всего: {invoices.length}</p>
+                </div>
 
-                <div className={styles.invoicePageContent}> 
-                    {loading && !refreshing ? ( 
-                        <div className={styles.loadingState}> 
-                            <IonText color="medium">Загрузка заявок...</IonText> 
-                        </div> 
-                    ) : invoices.length === 0 ? ( 
-                        <div className={styles.emptyState}> 
-                            <IonText color="medium">Нет заявок</IonText> 
-                            <IonButton fill="clear" onClick={onRefresh}> 
-                                Обновить 
-                            </IonButton> 
-                        </div> 
-                    ) : ( 
-                        <div className={styles.invoicesList}> 
-                            { render(invoices) } 
-                        </div> 
-                    )} 
-                </div> 
-            </div> 
+                <div className={styles.invoicePageContent}>
+                    {loading && !refreshing ? (
+                        <div className={styles.loadingState}>
+                            <IonText color="medium">Загрузка заявок...</IonText>
+                        </div>
+                    ) : invoices.length === 0 ? (
+                        <div className={styles.emptyState}>
+                            <IonText color="medium">Нет заявок</IonText>
+                            <IonButton fill="clear" onClick={onRefresh}>
+                                Обновить
+                            </IonButton>
+                        </div>
+                    ) : (
+                        <div className={styles.invoicesList}>
+                            {render(invoices)}
+                        </div>
+                    )}
+                </div>
+            </div>
 
             <div className={styles.mapPanel}>
                 <Maps invoices={invoices} />
-            </div> 
+            </div>
 
             <div className={styles.workersPanel}>
                 <div className={styles.workersHeader}>
@@ -138,8 +138,8 @@ export const InvMap: React.FC<any> = ({
                     {renderWorkers()}
                 </div>
             </div>
-        </div> 
-    ); 
-}; 
+        </div>
+    );
+};
 
 export default React.memo(InvMap);

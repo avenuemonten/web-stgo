@@ -17,9 +17,9 @@ import {
   IonChip,
   IonModal
 } from '@ionic/react';
-import { 
-  closeOutline, 
-  searchOutline, 
+import {
+  closeOutline,
+  searchOutline,
   locationOutline,
   personOutline,
   callOutline,
@@ -52,20 +52,20 @@ type Props = {
 
 // Хелперы для статусов
 const getStatusColor = (st: string) => {
-  switch(st) {
-    case 'В работе': return 'warning'; 
-    case 'Новый':    return 'primary';
+  switch (st) {
+    case 'В работе': return 'warning';
+    case 'Новый': return 'primary';
     case 'Черновик': return 'medium';
-    default:         return 'primary';
+    default: return 'primary';
   }
 };
 
 const getStatusIcon = (st: string) => {
   switch (st) {
-    case 'Новый':    return addCircleOutline;
+    case 'Новый': return addCircleOutline;
     case 'В работе': return constructOutline;
     case 'Черновик': return documentTextOutline;
-    default:         return statsChartOutline;
+    default: return statsChartOutline;
   }
 };
 
@@ -85,7 +85,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
   const [applicant, setApplicant] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState<string>('');
-  
+
   const [executorId, setExecutorId] = useState<string>('');
   const [status, setStatus] = useState<string>('Черновик');
   const [serviceText, setServiceText] = useState<string>('Выезд на ТО');
@@ -213,7 +213,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
     const licCode = String(licItem.name || '');
     if (!licId || !licCode) return toast.error('Не удалось прочитать ЛС');
 
-    setLicCodeInput(licCode); 
+    setLicCodeInput(licCode);
     setLic({ id: licId, code: licCode, name: '' });
 
     await post('add_lic', { token, lc: licCode, id: licId });
@@ -243,7 +243,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
       lat: 0,
       lon: 0,
       lic: { id: lic.id, code: lic.code, name: applicant },
-      service: [serviceText.trim()], 
+      service: [serviceText.trim()],
       status,
       plan_date: new Date().toISOString(),
       worker: workerObj
@@ -290,7 +290,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
 
           <IonContent className="custom-ion-content">
             <div className="create-invoice-modal__container">
-              
+
               {/* Секция 1: Данные объекта */}
               <div className="form-section">
                 <IonListHeader className="form-section-header">
@@ -303,16 +303,16 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
                   </div>
                   <IonLabel position="stacked">Лицевой счет</IonLabel>
                   <div style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
-                    <IonInput 
-                      value={licCodeInput} 
+                    <IonInput
+                      value={licCodeInput}
                       onIonInput={(e) => setLicCodeInput(e.detail.value || '')}
                       onKeyDown={(e) => e.key === 'Enter' && handleSearchLic()}
-                      placeholder="Введите ЛС и нажмите Enter" 
+                      placeholder="Введите ЛС и нажмите Enter"
                       className="modern-input"
                       disabled={searchingLic}
                     />
-                    <button 
-                      className="search-action-btn" 
+                    <button
+                      className="search-action-btn"
                       onClick={handleSearchLic}
                       disabled={searchingLic}
                       title="Найти данные"
@@ -322,10 +322,10 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
                   </div>
                 </IonItem>
 
-                <IonItem 
-                  className="modern-input-item clickable-item" 
-                  lines="none" 
-                  button 
+                <IonItem
+                  className="modern-input-item clickable-item"
+                  lines="none"
+                  button
                   detail={false}
                   onClick={() => setPickLicOpen(true)}
                 >
@@ -333,10 +333,10 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
                     <IonIcon icon={locationOutline} />
                   </div>
                   <IonLabel position="stacked">Адрес (нажмите для поиска ЛС)</IonLabel>
-                  <IonInput 
-                    value={address} 
-                    readonly 
-                    placeholder="Не знаете ЛС? Нажмите сюда" 
+                  <IonInput
+                    value={address}
+                    readonly
+                    placeholder="Не знаете ЛС? Нажмите сюда"
                     className="modern-input"
                     style={{ pointerEvents: 'none' }}
                   />
@@ -348,10 +348,10 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
                     <IonIcon icon={personOutline} />
                   </div>
                   <IonLabel position="stacked">Заявитель</IonLabel>
-                  <IonInput 
-                    value={applicant} 
-                    readonly 
-                    placeholder="Заполнится автоматически" 
+                  <IonInput
+                    value={applicant}
+                    readonly
+                    placeholder="Заполнится автоматически"
                     className="modern-input"
                   />
                 </IonItem>
@@ -398,14 +398,14 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
                     className="statusRow"
                     onClick={() => setStatusDropdownOpen(!statusDropdownOpen)}
                   >
-                    <div className="iconBox bgBlue" style={{marginRight: 12, marginTop: 0}}><IonIcon icon={flagOutline} /></div>
+                    <div className="iconBox bgBlue" style={{ marginRight: 12, marginTop: 0 }}><IonIcon icon={flagOutline} /></div>
                     <span className="statusLabel">Статус заявки</span>
                     <IonChip outline={false} color={getStatusColor(status)} className="statusCurrentChip">
                       <IonIcon icon={getStatusIcon(status)} />
                       <span style={{ marginLeft: 4 }}>{status}</span>
                     </IonChip>
                   </button>
-                  
+
                   {statusDropdownOpen && (
                     <div className="statusOptions">
                       {['Черновик', 'Новый', 'В работе'].map((st) => (
@@ -429,7 +429,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
                 {/* === ИСПОЛНИТЕЛЬ === */}
                 <div className="custom-field-container">
                   <div className="sectionLabelHeader">
-                    <div className="iconBox bgDark" style={{width: 36, height: 36, fontSize: 18, marginRight: 10}}><IonIcon icon={briefcaseOutline} /></div>
+                    <div className="iconBox bgDark" style={{ width: 36, height: 36, fontSize: 18, marginRight: 10 }}><IonIcon icon={briefcaseOutline} /></div>
                     Исполнитель
                   </div>
 
@@ -496,11 +496,11 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
                       </div>
 
                       <div className="executorsList">
-                        <div 
+                        <div
                           className={`executorCard ${!selectedExecutor ? 'executorSelected' : ''}`}
                           onClick={() => { setExecutorId(''); setExecutorDropdownOpen(false); }}
                         >
-                          <div className="executorPlaceholderText" style={{margin: '8px 0'}}>— не назначать —</div>
+                          <div className="executorPlaceholderText" style={{ margin: '8px 0' }}>— не назначать —</div>
                         </div>
 
                         {filteredExecutors.length === 0 ? (
@@ -509,9 +509,8 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
                           filteredExecutors.map((ex) => (
                             <div
                               key={ex.id}
-                              className={`executorCard ${
-                                selectedExecutor?.id === ex.id ? 'executorSelected' : ''
-                              } ${!ex.isAvailable ? 'executorDisabled' : ''}`}
+                              className={`executorCard ${selectedExecutor?.id === ex.id ? 'executorSelected' : ''
+                                } ${!ex.isAvailable ? 'executorDisabled' : ''}`}
                               onClick={() => {
                                 setExecutorId(ex.id);
                                 setExecutorDropdownOpen(false);
@@ -540,7 +539,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
                     </div>
                   )}
                 </div>
-                
+
               </div>
             </div>
           </IonContent>
@@ -548,16 +547,16 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
           <IonFooter className="ion-no-border create-invoice-modal__footer">
             <IonToolbar>
               <div className="footer-buttons">
-                <button 
+                <button
                   className="action-btn cancel-btn"
-                  onClick={() => { reset(); closeAll(); }} 
+                  onClick={() => { reset(); closeAll(); }}
                   disabled={loading}
                 >
                   ОТМЕНА
                 </button>
-                <button 
+                <button
                   className="action-btn submit-btn"
-                  onClick={handleCreate} 
+                  onClick={handleCreate}
                   disabled={loading}
                 >
                   {loading ? 'СОЗДАЮ…' : 'СОЗДАТЬ'}
@@ -577,7 +576,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, workers, onCreated
       <IonModal
         isOpen={pickAddrOpen}
         onDidDismiss={() => setPickAddrOpen(false)}
-        cssClass="stgo-modal"
+      // cssClass="stgo-modal"
       >
         <AddressForm
           initialAddress={address}
