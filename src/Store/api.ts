@@ -1,6 +1,8 @@
 
 const url = 'https://fhd.aostng.ru/mi/'
 
+const version = '1.2.1'
+
 export interface TResponse {
     success: boolean;
     data: any;
